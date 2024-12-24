@@ -23,3 +23,10 @@ python -m poetry shell
 ```sh
 poetry install
 ```
+
+## ruff
+
+```sh
+python -m ruff format
+python -m ruff check --fix
+```
