@@ -48,5 +48,20 @@ python manage.py runserver
 ### Snippet list
 
 ```sh
-curl --location '127.0.0.1:8000/snippets'
+curl --location '127.0.0.1:8000/snippets/'
+```
+
+### Snippet create
+
+```sh
+curl --location '127.0.0.1:8000/snippets/' \
+--header 'Content-Type: application/json' \
+--data '{
+    "title": "New Snippet",
+    "code": "print('\''hello world'\'')",
+    "linenos": true,
+    "language": "python",
+    "style": "friendly"
+}
+'
 ```
