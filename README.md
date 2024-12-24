@@ -65,3 +65,9 @@ curl --location '127.0.0.1:8000/snippets/' \
 }
 '
 ```
+
+### Snippet detail
+
+```sh
+curl --location '127.0.0.1:8000/snippets/1/'
+```
