@@ -1,31 +1,34 @@
-from rest_framework.decorators import api_view
+from django.http import Http404
 from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_204_NO_CONTENT,
     HTTP_400_BAD_REQUEST,
-    HTTP_404_NOT_FOUND,
 )
+from rest_framework.views import APIView
 
 from core.snippets.models import Snippet
 from core.snippets.serializers import SnippetSerializer
 
 
-@api_view(http_method_names=["GET", "DELETE", "PUT"])
-def snippet_detail(request, pk):
-    try:
-        snippet = Snippet.objects.get(pk=pk)
-    except Snippet.DoesNotExist:
-        return Response(status=HTTP_404_NOT_FOUND)
+class SnippetDetailApiView(APIView):
+    def _get_snippet(self, pk):
+        try:
+            return Snippet.objects.get(pk=pk)
+        except Snippet.DoesNotExist:
+            raise Http404
 
-    if request.method == "GET":
+    def get(self, request, pk, format=None):
+        snippet = self._get_snippet(pk=pk)
         serializer = SnippetSerializer(instance=snippet)
         return Response(data=serializer.data)
 
-    elif request.method == "DELETE":
+    def delete(self, request, pk, format=None):
+        snippet = self._get_snippet(pk=pk)
         snippet.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
-    elif request.method == "PUT":
+    def put(self, request, pk, format=None):
+        snippet = self._get_snippet(pk=pk)
         serializer = SnippetSerializer(instance=snippet, data=request.data)
 
         if serializer.is_valid():
