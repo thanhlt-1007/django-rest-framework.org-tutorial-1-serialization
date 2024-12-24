@@ -15,3 +15,7 @@ def snippet_detail(request, pk):
     if request.method == "GET":
         serializer = SnippetSerializer(instance=snippet)
         return JsonResponse(data=serializer.data)
+
+    elif request.method == "DELETE":
+        snippet.delete()
+        return HttpResponse(status=204)
