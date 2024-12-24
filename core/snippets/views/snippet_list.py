@@ -1,24 +1,23 @@
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 
 from core.snippets.models import Snippet
 from core.snippets.serializers import SnippetSerializer
 
 
-@csrf_exempt
+@api_view(http_method_names=["GET", "POST"])
 def snippet_list(request):
     if request.method == "GET":
         snippets = Snippet.objects.all()
         serializer = SnippetSerializer(instance=snippets, many=True)
-        return JsonResponse(data=serializer.data, safe=False)
+        return Response(data=serializer.data)
 
     elif request.method == "POST":
-        data = JSONParser().parse(request)
-        serializer = SnippetSerializer(data=data)
+        serializer = SnippetSerializer(data=request.data)
 
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(data=serializer.data, status=201)
+            return Response(data=serializer.data, status=HTTP_201_CREATED)
 
-        return JsonResponse(data=serializer.errors, status=400)
+        return Response(data=serializer.errors, status=HTTP_400_BAD_REQUEST)
