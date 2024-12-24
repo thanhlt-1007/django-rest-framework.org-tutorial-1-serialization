@@ -1,4 +1,3 @@
-
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import CreateModelMixin, ListModelMixin
 
@@ -6,11 +5,7 @@ from core.snippets.models import Snippet
 from core.snippets.serializers import SnippetSerializer
 
 
-class SnippetListApiView(
-    GenericAPIView,
-    ListModelMixin,
-    CreateModelMixin
-):
+class SnippetListApiView(GenericAPIView, ListModelMixin, CreateModelMixin):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
 
