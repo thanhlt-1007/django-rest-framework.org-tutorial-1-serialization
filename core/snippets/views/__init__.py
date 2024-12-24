@@ -1,2 +1,2 @@
-from .snippet_list import snippet_list  # noqa
+from .snippet_list_api_view import SnippetListApiView  # noqa
 from .snippet_detail import snippet_detail  # noqa
