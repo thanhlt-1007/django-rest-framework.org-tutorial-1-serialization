@@ -30,3 +30,23 @@ poetry install
 python -m ruff format
 python -m ruff check --fix
 ```
+
+## Run migrations
+
+```sh
+python manage.py migrate
+```
+
+## Run server
+
+```sh
+python manage.py runserver
+```
+
+## curl
+
+### Snippet list
+
+```sh
+curl --location '127.0.0.1:8000/snippets'
+```
