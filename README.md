@@ -71,3 +71,9 @@ curl --location '127.0.0.1:8000/snippets/' \
 ```sh
 curl --location '127.0.0.1:8000/snippets/1/'
 ```
+
+### Snippet delete
+
+```sh
+curl --location --request DELETE '127.0.0.1:8000/snippets/1/'
+```
