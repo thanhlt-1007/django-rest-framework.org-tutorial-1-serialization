@@ -1,8 +1,8 @@
 from django.urls import path
 
-from core.snippets.views import snippet_detail, snippet_list
+from core.snippets.views import SnippetListApiView, snippet_detail
 
 urlpatterns = [
-    path("snippets/", snippet_list),
+    path("snippets/", SnippetListApiView.as_view()),
     path("snippets/<int:pk>/", snippet_detail),
 ]
