@@ -77,3 +77,18 @@ curl --location '127.0.0.1:8000/snippets/1/'
 ```sh
 curl --location --request DELETE '127.0.0.1:8000/snippets/1/'
 ```
+
+## Snippet update
+
+```sh
+curl --location --request PUT '127.0.0.1:8000/snippets/1/' \
+--header 'Content-Type: application/json' \
+--data '{
+    "title": "Update Snippet",
+    "code": "print('\''hello world'\'')",
+    "linenos": true,
+    "language": "python",
+    "style": "friendly"
+}
+'
+```
