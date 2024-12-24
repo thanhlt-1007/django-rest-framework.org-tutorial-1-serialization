@@ -1,32 +1,36 @@
-from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.parsers import JSONParser
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.status import (
+    HTTP_204_NO_CONTENT,
+    HTTP_400_BAD_REQUEST,
+    HTTP_404_NOT_FOUND,
+)
 
 from core.snippets.models import Snippet
 from core.snippets.serializers import SnippetSerializer
 
 
-@csrf_exempt
+@api_view(http_method_names=["GET", "DELETE", "PUT"])
 def snippet_detail(request, pk):
     try:
         snippet = Snippet.objects.get(pk=pk)
     except Snippet.DoesNotExist:
-        return HttpResponse(status=404)
+        return Response(status=HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
         serializer = SnippetSerializer(instance=snippet)
-        return JsonResponse(data=serializer.data)
+        return Response(data=serializer.data)
 
     elif request.method == "DELETE":
         snippet.delete()
-        return HttpResponse(status=204)
+        return Response(status=HTTP_204_NO_CONTENT)
 
     elif request.method == "PUT":
-        data = JSONParser().parse(request)
-        serializer = SnippetSerializer(instance=snippet, data=data)
+        serializer = SnippetSerializer(instance=snippet, data=request.data)
 
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data)
+            return Response(data=serializer.data)
 
-        return JsonResponse(data=serializer.errors, status=400)
+        return Response(data=serializer.errors, status=HTTP_400_BAD_REQUEST)
