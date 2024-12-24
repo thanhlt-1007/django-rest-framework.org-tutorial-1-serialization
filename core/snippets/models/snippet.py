@@ -1,4 +1,4 @@
-from django.db.models import Model, DateTimeField, CharField, TextField, BooleanField
+from django.db.models import BooleanField, CharField, DateTimeField, Model, TextField
 from pygments.lexers import get_all_lexers
 from pygments.styles import get_all_styles
 
